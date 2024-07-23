@@ -1,2 +1,2 @@
-export const BASE_URL = `http://localhost:4000/`;
+export const BASE_URL = `https://doc-management-nodejs.onrender.com/`;
 export const LOCAL_STORAGE_TOKEN = "Token";
