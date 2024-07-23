@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "../config/axios";
 import AddLogo from "../assets/add.png";
 import AddFolder from "../assets/add-folder.png";
+import { useDispatch } from "react-redux";
+import { fetchDocuments } from "../features/document/documentSlice";
 
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -10,7 +12,7 @@ const FileUpload = () => {
   const [showFolders, setShowFolders] = useState(false);
   const [showCreateFolders, setShowCreateFolder] = useState(false);
   const [folders, setFolders] = useState([]);
-
+  const dispatch = useDispatch();
   const fetchFolders = async () => {
     try {
       const response = await axios.get("folders");
@@ -44,8 +46,10 @@ const FileUpload = () => {
 
     try {
       const response = await axios.post("documents", formData); // Replace with your endpoint
-      console.log("File uploaded successfully:", response.data);
+      console.log("File uploaded successfully:", response?.data);
+      // fetchFolders();
       alert("File uploaded successfully");
+      dispatch(fetchDocuments(selectedFolderId))
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Error uploading file");
@@ -60,9 +64,10 @@ const FileUpload = () => {
     try {
       const response = await axios.post("folders", { name: folderName }); // Replace with your endpoint
       console.log("Folder created successfully:", response);
+      await dispatch(fetchFolders());
     } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("Error uploading file");
+      // console.error("Error createing folder:", error);
+      // alert("Error creating folder");
     } finally {
       setShowFolders(false);
       setShowCreateFolder(false);
@@ -125,7 +130,15 @@ const FileUpload = () => {
       {showFolders && (
         <>
           <ul className="flex flex-col items-center justify-center absolute h-72 gap-1 bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg">
-            <span className="mb-4 text-blue-500 text-xl">Select Folder To Upload File</span>
+            <button
+              className="rounded-md mt-4 bg-red-500 px-2.5 p-1.5 text-white"
+              onClick={() => setShowFolders(false)}
+            >
+              Cancel
+            </button>
+            <span className="mb-4 text-blue-500 text-xl">
+              Select Folder To Upload File
+            </span>
             {folders.map((folder) => (
               <li
                 key={folder.id}
@@ -136,30 +149,25 @@ const FileUpload = () => {
               </li>
             ))}
           </ul>
-          <button
-            className="rounded-md mt-4 bg-red-500 px-2.5 p-1.5 text-white"
-            onClick={() => setShowFolders(false)}
-          >
-            Cancel
-          </button>
         </>
       )}
       {selectedFolderId && (
         <div className="flex flex-col items-center justify-center absolute h-72 w-72 gap-1 bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg">
-        <button
-          onClick={() => document.getElementById("fileInput").click()}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Select File
-        </button>
-        {selectedFile && (
-        <button
-          onClick={handleUpload}
-          className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
-        >
-          Upload
-        </button>
-      )}</div>
+          <button
+            onClick={() => document.getElementById("fileInput").click()}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Select File
+          </button>
+          {selectedFile && (
+            <button
+              onClick={handleUpload}
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Upload
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

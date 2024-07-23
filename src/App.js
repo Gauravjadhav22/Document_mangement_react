@@ -53,12 +53,18 @@ const App = () => {
     <Router>
       <div className="App">
         <div className="flex items-center">
-        <h1 className="w-full text-center text-2xl text-blue-800 my-4">
-        Document Management System
-        </h1>
-{auth?.token&&        <button className="bg-red-600 p-1 text-white mr-12 rounded-md text-xl" onClick={() => dispatch(logout())}>Logout</button>
-}        </div>
-     
+          <h1 className="w-full text-center text-2xl text-blue-800 my-4">
+            Document Management System
+          </h1>
+          {auth?.token && (
+            <button
+              className="bg-red-600 p-1 text-white mr-12 rounded-md text-xl"
+              onClick={() => dispatch(logout())}
+            >
+              Logout
+            </button>
+          )}{" "}
+        </div>
 
         {auth?.token ? (
           <Routes>
@@ -80,7 +86,6 @@ const App = () => {
           </Routes>
         ) : (
           <>
-         
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
