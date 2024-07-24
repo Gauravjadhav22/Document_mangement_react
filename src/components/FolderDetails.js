@@ -95,7 +95,7 @@ const FolderDetails = ({ folderId, folderNameValue }) => {
         <div className="flex items-center flex-col-reverse">
         
 
-      {folderId?.includes("shared")&&    <div className="flex items-center justify-between gap-8">  <img
+      {!folderId?.includes("Shared")&&    <div className="flex items-center justify-between gap-8">  <img
             src={deleteLogo}
             className="h-10 self-end cursor-pointer"
             onClick={() => handleDelete(doc?.id)}
