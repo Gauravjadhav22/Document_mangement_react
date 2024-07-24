@@ -16,41 +16,37 @@ const FolderList = ({ onSelectFolder }) => {
       dispatch(fetchFolders());
     }
   }, [folderStatus, dispatch]);
-  useEffect(() => {
+  useEffect(() => {}, [folders]);
 
-  }, [folders]);
-  
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete("folders/" + id); // Replace with your endpoint
+      await dispatch(fetchFolders());
       alert("Document deleted successfully:");
-     await      dispatch(fetchFolders());
-
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <div>
-      <h2 className="text-xl text-amber-800">Folders</h2>
-      <ul className="flex flex-wrap gap-4">
+      <h2 className="text-xl text-amber-800 my-4 px-8">Folders</h2>
+      <ul className="flex flex-wrap gap-4 p-12">
         {folders?.map((folder) => (
           <>
-       
-          <li
-            key={folder.id}
-            onClick={() => onSelectFolder(folder.id, folder?.name)}
-            className="flex flex-col items-start justify-center"
-          > 
-            <img src={FolderLogo} className="h-24" />
-           
-            <span>{folder.name}</span>
-          </li>
-          <img
-          src={deleteLogo}
-          className="h-8 "
-          onClick={() => handleDelete(folder?.id)}
-        />{" "}
+            <li
+              key={folder.id}
+              onClick={() => onSelectFolder(folder.id, folder?.name)}
+              className="flex flex-col items-start justify-center"
+            >
+              <img src={FolderLogo} className="h-24" />
+
+              <span>{folder.name}</span>
+            </li>
+            <img
+              src={deleteLogo}
+              className="h-8 -mr-2"
+              onClick={() => handleDelete(folder?.id)}
+            />{" "}
           </>
         ))}
       </ul>

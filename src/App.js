@@ -15,6 +15,7 @@ import { logout, setAuthToken } from "./features/auth/authSlice";
 import { getValuesLocalStorage } from "./utils/localStorageFunctions";
 import { LOCAL_STORAGE_TOKEN } from "./constants";
 import axios from "./config/axios";
+import { fetchFolders } from "./features/folder/folderSlice";
 const App = () => {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [folderName, setFolderName] = useState(null);
@@ -52,18 +53,22 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <div className="flex items-center">
+        <div className="flex-col md:flex-row items-center justify-between">
           <h1 className="w-full text-center text-2xl text-blue-800 my-4">
             Document Management System
           </h1>
-          {auth?.token && (
-            <button
-              className="bg-red-600 p-1 text-white mr-12 rounded-md text-xl"
-              onClick={() => dispatch(logout())}
-            >
-              Logout
-            </button>
-          )}{" "}
+
+       { auth?.user&&  <div className="italic flex-col md:flex-row">logged in as <span className="bg-green-100 p-1 rounded-md">{auth?.user}</span></div>
+         } <div>
+            {auth?.token && (
+              <button
+                className="bg-red-600 p-1 text-white mr-12 rounded-md text-xl"
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
 
         {auth?.token ? (

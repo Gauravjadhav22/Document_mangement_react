@@ -129,16 +129,18 @@ const FileUpload = () => {
       )}
       {showFolders && (
         <>
-          <ul className="flex flex-col items-center justify-center absolute h-72 gap-1 bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg">
-            <button
-              className="rounded-md mt-4 bg-red-500 px-2.5 p-1.5 text-white"
+          <ul className="flex flex-col items-center justify-start p-2 absolute h-72 gap-1 bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg">
+          <button
+              className="rounded-md bg-red-500 px-2.5 p-1.5 text-white"
               onClick={() => setShowFolders(false)}
             >
               Cancel
             </button>
-            <span className="mb-4 text-blue-500 text-xl">
+          <span className="mb-4 text-blue-500 text-xl">
               Select Folder To Upload File
             </span>
+        
+          
             {folders.map((folder) => (
               <li
                 key={folder.id}
